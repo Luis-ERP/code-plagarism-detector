@@ -3,6 +3,16 @@
 
 El Detector de Plagio es una herramienta avanzada diseñada para identificar y prevenir el plagio en documentos de texto. Utiliza algoritmos sofisticados para comparar el contenido de los documentos y detectar similitudes.
 
+#### Resumen de la Interpretación del Puntaje de Similitud:
+
+- 0: No hay similitud entre los archivos; casi con certeza no hay plagio.
+- 0 < puntaje < 0.5: Baja similitud; los archivos pueden tener algunos temas superpuestos o frases comunes, pero probablemente sean diferentes.
+- 0.5 < puntaje < 0.8: Similitud moderada; los archivos pueden compartir frases o estructuras significativas, lo que podría sugerir plagio parcial o una fuerte inspiración.
+- 0.8 < puntaje < 1: Alta similitud; los archivos son muy similares y probablemente plagiados.
+- 1: Contenido idéntico; muy probablemente sea plagio directo.
+
+Este método es útil como una primera capa de detección, aunque no es perfecto.
+
 ## Características
 
 - Detección de plagio en archivos Python
@@ -21,7 +31,7 @@ git clone https://github.com/Luis-ERP/code-plagarism-detector.git
 pip install -r requirements.txt
 ```
 
-3. Instalar recursos de NLTMK
+3. Instalar recursos de NLTK
 ```bash
 python
 ```

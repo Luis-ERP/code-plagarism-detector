@@ -20,6 +20,7 @@ def calculate_similarity(chunks1, chunks2):
 if __name__ == '__main__':
     filename1 = sys.argv[1]
     filename2 = sys.argv[2]
+    chunk_size = int(sys.argv[3]) if len(sys.argv) > 3 else 1000
 
     # Load files
     data1 = None
@@ -29,9 +30,6 @@ if __name__ == '__main__':
     data2 = None
     with open(filename2, 'r') as file:
         data2 = file.read()
-
-    # Define chunk size
-    chunk_size = 1000  # Adjust based on desired chunk length
 
     # Chunk the text
     chunks1 = chunk_text(data1, chunk_size)
