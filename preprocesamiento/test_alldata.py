@@ -57,8 +57,8 @@ def classify_new_code(new_code_path, pkl_file, plagiarized_folder, not_plagiariz
 
 # Main execution
 if __name__ == "__main__":
-    new_code_path = r'dataset_final\java_files'  # Path to new Java file
-    pkl_file = 'dataset_final/all_data.pkl'  # Path to the combined pkl file
+    new_code_path = r'../dataset_final/java_files'  # Path to new Java file
+    pkl_file = '../dataset_final/all_data.pkl'  # Path to the combined pkl file
     plagiarized_folder = 'plagiarized'  # Folder to move plagiarized files
     not_plagiarized_folder = 'not_plagiarized'  # Folder for non-plagiarized files
     

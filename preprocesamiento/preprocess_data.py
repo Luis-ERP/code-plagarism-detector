@@ -11,15 +11,11 @@ def read_java_file(file_path):
 
 # Function to extract AST nodes
 def extract_ast_nodes(code):
-    try:
-        tokens = list(javalang.tokenizer.tokenize(code))
-        parser = javalang.parser.Parser(tokens)
-        tree = parser.parse()
-        ast_nodes = [node.__class__.__name__ for path, node in tree if isinstance(node, javalang.tree.Node)]
-        return ' '.join(ast_nodes) if ast_nodes else ''
-    except Exception as e:
-        print(f"Error extracting AST nodes: {e}")
-        return ''
+    tokens = list(javalang.tokenizer.tokenize(code))
+    parser = javalang.parser.Parser(tokens)
+    tree = parser.parse()
+    ast_nodes = [node.__class__.__name__ for path, node in tree if isinstance(node, javalang.tree.Node)]
+    return ' '.join(ast_nodes) if ast_nodes else ''
 
 # Preprocess all pairs and save a single pkl file
 def preprocess_and_save_single_pkl(base_dir, labels_file, output_file):
@@ -36,8 +32,14 @@ def preprocess_and_save_single_pkl(base_dir, labels_file, output_file):
         if os.path.exists(file1_path) and os.path.exists(file2_path):
             code1 = read_java_file(file1_path)
             code2 = read_java_file(file2_path)
-            ast_nodes1 = extract_ast_nodes(code1)
-            ast_nodes2 = extract_ast_nodes(code2)
+            try:
+                ast_nodes1 = extract_ast_nodes(code1)
+            except Exception as e:
+                print(f"Error extracting AST nodes in file {file1_path} : {e}")
+            try:
+                ast_nodes2 = extract_ast_nodes(code2)
+            except Exception as e:
+                print(f"Error extracting AST nodes in file {file2_path} : {e}")
 
             if ast_nodes1 and ast_nodes2:
                 combined_ast_nodes = ast_nodes1 + ' ' + ast_nodes2
@@ -54,8 +56,8 @@ def preprocess_and_save_single_pkl(base_dir, labels_file, output_file):
     print(f"Data saved in {output_file}")
 
 if __name__ == "__main__":
-    base_dir = r'dataset_raw\conplag_version_2\versions\version_2'  # Base folder containing subfolders for pairs
-    labels_file = r'dataset_raw\conplag_version_2\versions\labels.csv'  # Path to the CSV file
-    output_file = 'dataset_final/all_data.pkl'  # Single pkl file to store all data
+    base_dir = '../dataset_raw/conplag_version_2/versions/version_2'  # Base folder containing subfolders for pairs
+    labels_file = '../dataset_raw/conplag_version_2/versions/labels.csv'  # Path to the CSV file
+    output_file = '../dataset_final/all_data.pkl'  # Single pkl file to store all data
     
     preprocess_and_save_single_pkl(base_dir, labels_file, output_file)
