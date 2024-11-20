@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
-import os, sys, joblib, javalang
+from sklearn.metrics.pairwise import cosine_similarity
+import javalang
 import argparse
 
 
@@ -42,7 +43,6 @@ if __name__ == '__main__':
         tfidf_matrix = vectorizer.fit_transform(ast_corpus)
 
         # Compute cosine similarity
-        from sklearn.metrics.pairwise import cosine_similarity
         similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0]
 
         print(f"Cosine Similarity between the two Java files: {similarity:.4f}")
