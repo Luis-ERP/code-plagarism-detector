@@ -26,7 +26,7 @@ class CustomAlgorithm(Algorithm):
         def get_percent_number(file):
             with open(file, 'r') as pair_report:
                 text = pair_report.read()
-            # occs is empty <-> file1, file2 have no same tokens
+            
             occs = findOccurrences(text, "%")
             return float(extractNumber(text, occs[0])) if occs else 0.0
 

@@ -8,7 +8,7 @@ def read_java_file(file_path: str) -> str:
     with open(file_path, 'r', encoding='utf-8') as file:
         return file.read()
     
-# Function to extract AST nodes
+# Extract AST nodes
 def extract_ast_nodes(code):
     tokens = list(javalang.tokenizer.tokenize(code))
     parser = javalang.parser.Parser(tokens)
