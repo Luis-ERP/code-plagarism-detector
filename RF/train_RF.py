@@ -1,13 +1,11 @@
 import os
+import joblib
 import pandas as pd
 import javalang
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
-import joblib
-from collections import Counter
 
-# Function to read Java files
 def read_java_file(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -16,7 +14,6 @@ def read_java_file(file_path):
         print(f"File not found: {file_path}")
         return ''
 
-# Function to extract AST nodes from Java code using javalang
 def extract_ast_nodes(code):
     try:
         tokens = list(javalang.tokenizer.tokenize(code))
@@ -28,7 +25,6 @@ def extract_ast_nodes(code):
         print(f"Error parsing code: {e}")
         return ''
 
-# Preprocess files from folders and labels.csv
 def preprocess_from_folders(data_dir, labels_csv):
     labels_df = pd.read_csv(labels_csv)
     data = []
@@ -57,7 +53,6 @@ def preprocess_from_folders(data_dir, labels_csv):
         else:
             print(f"Skipping folder {subfolder} due to missing code files.")
 
-    # Vectorize the combined ASTspython
     vectorizer = TfidfVectorizer(max_features=5000)
     X = vectorizer.fit_transform(data)
     return X, labels, vectorizer
@@ -70,14 +65,13 @@ def train_random_forest(X, y, model_path, vectorizer_path):
     joblib.dump((X_test, y_test), preprocessed_data_path)
     print(f"Preprocessed test data saved to {preprocessed_data_path}")
 
-    # Save the model and vectorizer
     joblib.dump(clf, model_path)
     joblib.dump(vectorizer, vectorizer_path)
     print(f"Model saved to {model_path}")
     print(f"Vectorizer saved to {vectorizer_path}")
 
 if __name__ == "__main__":
-    data_directory = r'versions\version_1'
+    data_directory = r'versions\version_2'
     labels_csv = r'versions\labels.csv'
     model_output_path = r'RF\random_forest_model.pkl'
     vectorizer_output_path = r'RF\tfidf_vectorizer.pkl'

@@ -6,9 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from imblearn.over_sampling import SMOTE
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from collections import Counter
 
-# Function to read Java files
 def read_java_file(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -17,7 +15,6 @@ def read_java_file(file_path):
         print(f"File not found: {file_path}")
         return ''
 
-# Function to extract AST nodes from Java code using javalang
 def extract_ast_nodes(code):
     try:
         tokens = list(javalang.tokenizer.tokenize(code))
@@ -29,7 +26,6 @@ def extract_ast_nodes(code):
         print(f"Error parsing code: {e}")
         return ''
 
-# Preprocess files from folders and labels.csv
 def preprocess_from_folders(data_dir, labels_csv):
     labels_df = pd.read_csv(labels_csv)
     data = []
@@ -63,31 +59,23 @@ def preprocess_from_folders(data_dir, labels_csv):
     return X, labels, vectorizer
 
 def train_random_forest_with_smote(X, y, model_path, vectorizer_path, test_data_path):
-    # Split the data into training and test sets
     X_train_raw, X_test_raw, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-    print(f"Class distribution in test data: {Counter(y_test)}")
-
-    # Save the original test data before SMOTE
     joblib.dump((X_test_raw, y_test), test_data_path)
     print(f"Original test data saved to {test_data_path}")
 
-    # Apply SMOTE to the training data
     smote = SMOTE(random_state=42)
     X_train_resampled, y_train_resampled = smote.fit_resample(X_train_raw, y_train)
 
-    # Train the Random Forest model
     clf = RandomForestClassifier(n_estimators=100, random_state=42)
     clf.fit(X_train_resampled, y_train_resampled)
 
-    # Save the model and vectorizer
     joblib.dump(clf, model_path)
     joblib.dump(vectorizer, vectorizer_path)
     print(f"Model saved to {model_path}")
     print(f"Vectorizer saved to {vectorizer_path}")
 
 if __name__ == "__main__":
-    # Paths
     data_directory = r'versions\version_2'
     labels_csv = r'versions\labels.csv'
     model_output_path = r'RF_SMOTE\random_forest_model.pkl'
@@ -97,5 +85,4 @@ if __name__ == "__main__":
     # Preprocess the data
     X, y, vectorizer = preprocess_from_folders(data_directory, labels_csv)
 
-    # Train the Random Forest model
     train_random_forest_with_smote(X, y, model_output_path, vectorizer_output_path, test_data_path)
