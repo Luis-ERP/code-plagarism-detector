@@ -3,9 +3,8 @@ from sklearn.metrics import classification_report, confusion_matrix, ConfusionMa
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def evaluate_model(model_path, vectorizer_path, test_data_path, report_csv_path, confusion_matrix_path):
+def evaluate_model(model_path, test_data_path, report_csv_path, confusion_matrix_path):
     clf = joblib.load(model_path)
-    vectorizer = joblib.load(vectorizer_path)
     X_test, y_test = joblib.load(test_data_path)
 
     y_pred = clf.predict(X_test)
@@ -24,10 +23,9 @@ def evaluate_model(model_path, vectorizer_path, test_data_path, report_csv_path,
 
 if __name__ == "__main__":
     model_path = r'RF_SMOTE\random_forest_model.pkl'
-    vectorizer_path = r'RF_SMOTE\tfidf_vectorizer.pkl'
     test_data_path = r'RF_SMOTE\test_data.pkl'
     report_csv_path = r'RF_SMOTE\classification_report_smote.csv'
     confusion_matrix_path = r'RF_SMOTE\confusion_matrix_smote.png'
 
     # Evaluate the model
-    evaluate_model(model_path, vectorizer_path, test_data_path, report_csv_path, confusion_matrix_path)
+    evaluate_model(model_path, test_data_path, report_csv_path, confusion_matrix_path)

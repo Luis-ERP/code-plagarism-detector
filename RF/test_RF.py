@@ -4,10 +4,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
-def evaluate_model(model_path, vectorizer_path, test_X, test_y, report_csv_path, confusion_matrix_path):
+def evaluate_model(model_path, test_X, test_y, report_csv_path, confusion_matrix_path):
     # Load the trained Random Forest model and TF-IDF vectorizer
     clf = joblib.load(model_path)
-    vectorizer = joblib.load(vectorizer_path)
 
     y_pred = clf.predict(test_X)
 
@@ -26,12 +25,9 @@ def evaluate_model(model_path, vectorizer_path, test_X, test_y, report_csv_path,
 
 if __name__ == "__main__":
     model_path = r'RF\random_forest_model.pkl'
-    vectorizer_path = r'RF\tfidf_vectorizer.pkl'
-    
-    vectorizer = joblib.load(vectorizer_path)
-    
+     
     # Load preprocessed test data (already vectorized)
     test_X, test_y = joblib.load(r'RF\test_data.pkl')
     
-    evaluate_model(model_path, vectorizer_path, test_X, test_y, 
+    evaluate_model(model_path, test_X, test_y, 
                    r'RF\classification_report.csv', r'RF\confusion_matrix.png')

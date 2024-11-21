@@ -56,9 +56,9 @@ def preprocess_from_folders(data_dir, labels_csv):
 
     vectorizer = TfidfVectorizer(max_features=5000)
     X = vectorizer.fit_transform(data)
-    return X, labels, vectorizer
+    return X, labels
 
-def train_random_forest_with_smote(X, y, model_path, vectorizer_path, test_data_path):
+def train_random_forest_with_smote(X, y, model_path, test_data_path):
     X_train_raw, X_test_raw, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
     joblib.dump((X_test_raw, y_test), test_data_path)
@@ -71,18 +71,15 @@ def train_random_forest_with_smote(X, y, model_path, vectorizer_path, test_data_
     clf.fit(X_train_resampled, y_train_resampled)
 
     joblib.dump(clf, model_path)
-    joblib.dump(vectorizer, vectorizer_path)
     print(f"Model saved to {model_path}")
-    print(f"Vectorizer saved to {vectorizer_path}")
 
 if __name__ == "__main__":
     data_directory = r'versions\version_2'
     labels_csv = r'versions\labels.csv'
     model_output_path = r'RF_SMOTE\random_forest_model.pkl'
-    vectorizer_output_path = r'RF_SMOTE\tfidf_vectorizer.pkl'
     test_data_path = r'RF_SMOTE\test_data.pkl'
 
     # Preprocess the data
-    X, y, vectorizer = preprocess_from_folders(data_directory, labels_csv)
+    X, y = preprocess_from_folders(data_directory, labels_csv)
 
-    train_random_forest_with_smote(X, y, model_output_path, vectorizer_output_path, test_data_path)
+    train_random_forest_with_smote(X, y, model_output_path, test_data_path)
